@@ -1,0 +1,140 @@
+{
+  "annotations": {
+    "C": {
+      "end": 2452,
+      "start": 1900,
+      "strand": 1
+    },
+    "S": {
+      "end": 835,
+      "start": 154,
+      "strand": 1
+    },
+    "X": {
+      "end": 1838,
+      "start": 1373,
+      "strand": 1
+    },
+    "nuc": {
+      "end": 3215,
+      "start": 0,
+      "strand": 1
+    }
+  },
+  "author_info": {},
+  "color_options": {
+    "age": {
+      "key": "age",
+      "legendTitle": "age",
+      "menuItem": "age",
+      "type": "discrete"
+    },
+    "country": {
+      "key": "country",
+      "legendTitle": "Country",
+      "menuItem": "country",
+      "type": "discrete"
+    },
+    "genotype": {
+      "color_map": [
+        [
+          "gA",
+          "#DB2838"
+        ],
+        [
+          "gB",
+          "#4C90C0"
+        ],
+        [
+          "gC",
+          "#FF33FF"
+        ],
+        [
+          "gD",
+          "#6A0DAD"
+        ],
+        [
+          "gE",
+          "#247209"
+        ],
+        [
+          "gF",
+          "#FFFF33"
+        ],
+        [
+          "gCD",
+          "#B2C248"
+        ]
+      ],
+      "key": "genotype",
+      "legendTitle": "genotype",
+      "menuItem": "genotype",
+      "type": "discrete"
+    },
+    "gt": {
+      "key": "genotype",
+      "legendTitle": "Genotype",
+      "menuItem": "genotype",
+      "type": "discrete"
+    },
+    "num_date": {
+      "key": "num_date",
+      "legendTitle": "Sampling date",
+      "menuItem": "date",
+      "type": "continuous"
+    },
+    "sex": {
+      "key": "sex",
+      "legendTitle": "sex",
+      "menuItem": "sex",
+      "type": "discrete"
+    },
+    "year_diagnosis": {
+      "key": "year_diagnosis",
+      "legendTitle": "year_diagnosis",
+      "menuItem": "year_diagnosis",
+      "type": "discrete"
+    }
+  },
+  "defaults": {
+    "mapTriplicate": true
+  },
+  "filters": [
+    "country",
+    "year_diagnosis",
+    "age",
+    "sex",
+    "genotype"
+  ],
+  "geo": {
+    "country": {
+      "belgium": {
+        "latitude": 50.6407351,
+        "longitude": 4.66696
+      },
+      "china": {
+        "latitude": 35.000074,
+        "longitude": 104.999927
+      },
+      "netherlands": {
+        "latitude": 52.3702,
+        "longitude": 4.8952
+      },
+      "tibet": {
+        "latitude": 31.129337,
+        "longitude": 88.671049
+      }
+    }
+  },
+  "maintainer": [
+    "Cremer"
+  ],
+  "panels": [
+    "tree",
+    "map",
+    "entropy"
+  ],
+  "title": "HBV analysis of S, C, and complete genomes using NGS",
+  "updated": "21 May 2021",
+  "virus_count": 14
+}
