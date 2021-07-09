@@ -1,0 +1,122 @@
+#rule export
+    output:
+        auspice_tree = "auspice/complete-genome_tree.json",
+        auspice_meta = "auspice/complete-genome_meta.json"
+	output:
+        auspice_tree = "auspice/S-gene_tree.json",
+        auspice_meta = "auspice/S-gene_meta.json"	
+	output:
+        auspice_tree = "auspice/C-gene_tree.json",
+        auspice_meta = "auspice/C-gene_meta.json"
+		
+rule filter:
+    input:
+        sequences = "data/sequences.FST",
+        metadata = "data/metadata.tsv",
+	drop = "data/droppedseq"
+    output:
+        sequences = "results/filtered.fasta"
+    params:
+        min_date = 1920
+    shell:
+        """
+        augur filter \
+            --sequences {input.sequences} \
+            --metadata {input.metadata} \
+            --output {output.sequences} \
+            --min-date {params.min_date} \
+	    --exclude {input.drop}
+        """
+rule align:
+    input:
+        sequences = rules.filter.output.sequences,
+        reference = "config/reference.gb"
+    output:
+        alignment = "results/aligned.fasta"
+    shell:
+        """
+        augur align \
+            --sequences {input.sequences} \
+            --reference-sequence {input.reference} \
+            --output {output.alignment}
+        """
+rule tree:
+    input:
+        alignment = rules.align.output.alignment
+    output:
+        tree = "results/tree_raw.nwk"
+    shell:
+        """
+        augur tree \
+            --alignment {input.alignment} \
+            --output {output.tree}
+        """
+rule refine:
+    input:
+        tree = rules.tree.output.tree,
+        alignment = rules.align.output,
+        metadata = "data/metadata.tsv"
+    output:
+        tree = "results/tree.nwk",
+        node_data = "results/branch_lengths.json"
+    shell:
+        """
+        augur refine \
+            --tree {input.tree} \
+            --alignment {input.alignment} \
+            --metadata {input.metadata} \
+            --timetree \
+            --output-tree {output.tree} \
+            --output-node-data {output.node_data}
+        """
+rule ancestral:
+    input:
+        tree = rules.refine.output.tree,
+        alignment = rules.align.output
+    output:
+        node_data = "results/nt_muts.json"
+    shell:
+        """
+        augur ancestral \
+            --tree {input.tree} \
+            --alignment {input.alignment} \
+            --output-node-data {output.node_data}
+        """
+rule translate:
+    input:
+        tree = rules.refine.output.tree,
+        node_data = rules.ancestral.output.node_data,
+        reference = "config/reference.gb"
+    output:
+        node_data = "results/aa_muts.json"
+    shell:
+        """
+        augur translate \
+            --tree {input.tree} \
+            --ancestral-sequences {input.node_data} \
+            --reference-sequence {input.reference} \
+            --output-node-data {output.node_data} \
+        """
+rule export:
+    input:
+        tree = rules.refine.output.tree,
+        metadata = "data/metadata.tsv",
+        branch_lengths = rules.refine.output.node_data,
+        nt_muts = rules.ancestral.output.node_data,
+        aa_muts = rules.translate.output.node_data,
+        auspice_config = "config/auspice_config.json",
+	    colors = "config/colors.tsv"
+    output:
+        auspice_tree = "auspice/{analysis gene}_tree.json",
+        auspice_meta = "auspice/{analysis gene}_meta.json"
+    shell:
+        """
+        augur export v1 \
+            --tree {input.tree} \
+            --metadata {input.metadata} \
+            --node-data {input.branch_lengths} {input.nt_muts} {input.aa_muts} \
+            --auspice-config {input.auspice_config} \
+	        --output-tree {output.auspice_tree} \
+		    --colors {input.colors} \
+            --output-meta {output.auspice_meta}
+        """
