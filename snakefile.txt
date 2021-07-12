@@ -1,13 +1,13 @@
 #rule export
     output:
-        auspice_tree = "auspice/complete-genome_tree.json",
-        auspice_meta = "auspice/complete-genome_meta.json"
+        auspice_tree = "auspice/HBV-REC_complete-genome_tree.json",
+        auspice_meta = "auspice/HBV-REC_complete-genome_meta.json"
 	output:
-        auspice_tree = "auspice/S-gene_tree.json",
-        auspice_meta = "auspice/S-gene_meta.json"	
+        auspice_tree = "auspice/HBV-REC_S-gene_tree.json",
+        auspice_meta = "auspice/HBV-REC_S-gene_meta.json"	
 	output:
-        auspice_tree = "auspice/C-gene_tree.json",
-        auspice_meta = "auspice/C-gene_meta.json"
+        auspice_tree = "auspice/HBV-REC_C-gene_tree.json",
+        auspice_meta = "auspice/HBV-REC_C-gene_meta.json"
 		
 rule filter:
     input:
